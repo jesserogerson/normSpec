@@ -1,5 +1,5 @@
 #normalizeSpectra.py
-Author: Jesse A. Rogerson, email: rogerson@yorku.ca
+Author: Jesse A. Rogerson, jesserogerson.com, rogerson@yorku.ca
 
 The code implementation was written by the above, but with helpful (and crucial) contributions from: **Patrick B. Hall, Paola Rodriguez Hidalgo**
 

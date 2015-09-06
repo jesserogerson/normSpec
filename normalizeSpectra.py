@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
 --------------------------------------------------------------------------------
-Author: Jesse A. Rogerson, rogerson@yorku.ca
+Author: Jesse A. Rogerson, jesserogerson.com, rogerson@yorku.ca
 Additional Credits: Patrick B. Hall,
                     Paola Rodriguez Hidalgo
 
@@ -74,6 +74,7 @@ HISTORY
                    routine and the plotting routine, which both have
                    commmand pages.
                  - filled out the docstring above.
+2015-09-04 - JAR - original commit to github.com/jesserogerson
 --------------------------------------------------------------------------
 '''
 #Libraries used
