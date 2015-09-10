@@ -321,7 +321,8 @@ def normalize(spectra,
               funcType='plaw',
               RLF=[[1270,1350],[1590,1620],[1650,1700]],
               xlimits=[1000,1800],
-              ylimits=[0,20]):
+              ylimits=[0,20],
+              SNRreg=[1600,1650]):
     '''
     Normalization Routine
     '''
@@ -464,6 +465,12 @@ def normalize(spectra,
             ylimits=map(float,user_input.split(','))
             print 'Reset figure ylimits to:'+str(ylimits)
             print '------------------------------------------------------------'
+        elif user_input=='SNRreg':
+            print '------------------------------------------------------------'
+            user_input=raw_input('Enter new region to calculate SNR (comma separated):')
+            SNRreg=map(float,user_input.split(','))
+            print 'Reset figure SNRreg to:'+str(SNRreg)
+            print '------------------------------------------------------------'
         elif user_input=='q' or user_input=='Q':
             escape=True
         elif user_input=='commands':
@@ -480,6 +487,7 @@ def normalize(spectra,
             print 'xlimits        : create a new xrange by entering [x1,x2]'
             print 'ylimits        : create a new yrange by entering [y1,y2]'
             print 'RLF            : add/remove RLF windows[x1,x2]'
+            print 'SNRreg         : change the region SNR is calculated over'
             print 'filename       : change name of image file'
             print 'normalize      : execute normalization.'
             print 'normlist       : add or remove spectra from final plot.'
@@ -572,6 +580,11 @@ def normalize(spectra,
                 flux_err=data[:,2]
                 print '----------------------------------------------------'
                 print '***Normalizing spectrum: '+spec
+                SNR=np.array([])
+                for i in range(len(spectraOriginal[spec][:,0])):
+                    if spectraOriginal[spec][i,0] ge SNRreg[0] and spectraOriginal[spec][i,0] le SNRreg[1]:
+                        SNR=np.concatenate((w,([spectraOriginal[spec][i,1]/spectraOriginal[spec][i,2]])))
+                print '*** SNR in range '+str(SNRreg)+'is '+Str(np.median(SNR))
                 #identify the indicies that reflect the given RLF windows
                 w=0
                 w=np.array([],dtype=int)
