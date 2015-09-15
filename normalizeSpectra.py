@@ -416,7 +416,7 @@ def normalize(spectra,
         print '-----No SDSS spectrum!'
         while validate==False:
             print '-----which spectrum would you like to scale to?'
-            print '-----'+keyList
+            print '-----'+str(keyList)
             scaleToName=raw_input('-----enter spectrum:')
             if scaleToName not in keyList:
                 print '-----That spectrum is not available, try again'
