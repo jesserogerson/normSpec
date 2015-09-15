@@ -75,6 +75,8 @@ HISTORY
                    commmand pages.
                  - filled out the docstring above.
 2015-09-04 - JAR - original commit to github.com/jesserogerson
+2015-09-15 - JAR - multiple bug fixes, especially around parameter files
+                 - added date/time to each writing of the param files
 --------------------------------------------------------------------------
 '''
 #Libraries used
@@ -89,6 +91,7 @@ import copy as cp
 import os.path
 import argparse
 import jarTools
+import datetime
 
 ####declare methods() and functions()
 def plotNorm(spectra,
@@ -107,12 +110,15 @@ def plotNorm(spectra,
     no=set(['no','n','NO','N',False,0])
 
     #Search for normJHHMMSS.parm file?
-    parmFile='norm'+objInfo['shortObjName']+'.parm'
+    parmFile='plot'+objInfo['shortObjName']+'.parm'
     if os.path.exists(parmFile):
+        print '############################################################'
         print '*** Detected a plotting parameter file:',parmFile
-        user_input=raw_input('Would you like to use it? [y/n]:')
+        user_input=raw_input('*** Would you like to use it? [y/n]:')
         if user_input in yes:
             parmDict={}
+            print '*** Reading in previously used parameters'
+            print '***'
             with open(parmFile,'r') as f:
                 s=f.readlines()
                 for line in s[-6:-1]:
@@ -120,14 +126,25 @@ def plotNorm(spectra,
                     parmDict[listedline[0]]=listedline[1]
             f.close()
             #pulling out the parm values
-            annotations=bool(parmDict['annotations'])
+            if parmDict['annotations']=='True':
+                annotations=True
+            else:
+                annotations=False
             lw=str(parmDict['lw'])
-            xlimits=np.array(parmDict['xlimits']).tolist()
-            ylimits=np.array(parmDict['ylimits']).tolist()
-            RLF=np.array(parmDict['RLF']).tolist()
+            xlimits=map(float,parmDict['xlimits'].split(','))
+            ylimits=map(float,parmDict['ylimits'].split(','))
+            temp=map(float,parmDict['RLF'].split(','))
+            RLF=[[temp[0],temp[1]]]
+            for t in range(2,len(temp)-1,2):
+                RLF.insert(0,[temp[t],temp[t+1]])
+            print '*** xlimits'+'='+str(xlimits)
+            print '*** ylimits'+'='+str(ylimits)
+            print '*** RLF'+'='+str(RLF)
+            print '*** annotations'+'='+str(annotations)
+            print '*** lw'+'='+str(lw)
         else:
-            print 'Using default parameters.'
-
+            print '*** Using default parameters.'
+        print '############################################################'
 
     filename='norm'+objInfo['shortObjName']+'.eps'
     print '#######----------------------------------------------#######'
@@ -162,7 +179,7 @@ def plotNorm(spectra,
                 deltaT=0
             else:
                 deltaT=round((objInfo[plotList[i]]-objInfo[plotList[i-1]])/(1+objInfo['zem']),2)
-            plt.plot(spectra[spec][:,0],(spectra[spec][:,1]),colourDict[spec],linewidth=lw,label=str(objInfo[spec])+' '+spec+str(deltaT))
+            plt.plot(spectra[spec][:,0],(spectra[spec][:,1]),colourDict[spec],linewidth=lw,label=str(round(objInfo[spec],2))+' '+spec+' '+str(deltaT))
 
         #turns on/off the RLF gray'd out regions
         if windows==True:
@@ -224,14 +241,19 @@ def plotNorm(spectra,
             print 'RLF'+'='+str(RLF)
             print 'annotations'+'='+str(annotations)
             print 'lw'+'='+str(lw)
+            now = datetime.datetime.now()
             outfile=open(parmFile,'a')
-            outfile.write('------------------------------------------------------------\n')
+            outfile.write('-------------------------'+now.strftime("%Y-%m-%d %H:%M")+'------------------------\n')
             outfile.write('annotations'+'='+str(annotations)+'\n')
             outfile.write('lw'+'='+str(lw)+'\n')
-            outfile.write('xlimits'+'='+str(xlimits)+'\n')
-            outfile.write('ylimits'+'='+str(ylimits)+'\n')
-            outfile.write('RLF'+'='+str(RLF)+'\n')
-            outfile.write('------------------------------------------------------------\n')
+            outfile.write('xlimits'+'='+str(xlimits[0])+','+str(xlimits[1])+'\n')
+            outfile.write('ylimits'+'='+str(ylimits[0])+','+str(ylimits[1])+'\n')
+            outfile.write('RLF'+'=')
+            for r in RLF[:-1]:
+                outfile.write(str(r[0])+','+str(r[1])+',')
+            else:
+                outfile.write(str(RLF[-1][0])+','+str(RLF[-1][1])+'\n')
+            outfile.write('----------------------------------------------------------------------------\n')
             outfile.close()
             print '############################################################'
         elif user_input=='lw':
@@ -331,11 +353,14 @@ def normalize(spectra,
     no=set(['no','n','NO','N',False,0])
 
     #Search for spectraJHHMMSS.parm file?
-    parmFile='spectra'+objInfo['shortObjName']+'.parm'
+    parmFile='norm'+objInfo['shortObjName']+'.parm'
     if os.path.exists(parmFile):
+        print '------------------------------------------------------------'
         print '*** Detected a normalization parameter file:',parmFile
-        user_input=raw_input('Would you like to use it? [y/n]:')
+        user_input=raw_input('*** Would you like to use it? [y/n]:')
         if user_input in yes:
+            print '*** Reading in previously used parameters...'
+            print '*'
             parmDict={}
             with open(parmFile,'r') as f:
                 s=f.readlines()
@@ -344,14 +369,25 @@ def normalize(spectra,
                     parmDict[listedline[0]]=listedline[1]
             f.close()
             #pulling out the parm values
-            smooth=bool(parmDict['smooth'])
+            if parmDict['smooth']=='True':
+                smooth=True
+            else:
+                smooth=False
             funcType=str(parmDict['funcType'])
-            xlimits=np.array(parmDict['xlimits']).tolist()
-            ylimits=np.array(parmDict['ylimits']).tolist()
-            RLF=np.array(parmDict['RLF']).tolist()
+            xlimits=map(float,parmDict['xlimits'].split(','))
+            ylimits=map(float,parmDict['ylimits'].split(','))
+            temp=map(float,parmDict['RLF'].split(','))
+            RLF=[[temp[0],temp[1]]]
+            for t in range(2,len(temp)-1,2):
+                RLF.insert(0,[temp[t],temp[t+1]])
+            print '*** smooth'+'='+str(smooth)
+            print '*** funcType'+'='+str(funcType)
+            print '*** xlimits'+'='+str(xlimits)
+            print '*** ylimits'+'='+str(ylimits)
+            print '*** RLF'+'='+str(RLF)
         else:
-            print 'Using default parameters.'
-
+            print '*** Using default parameters.'
+        print '------------------------------------------------------------'
     #Constants
     lightspeed=299792.458 #km/s
     civ_0=1548.202 #Ang
@@ -393,7 +429,6 @@ def normalize(spectra,
         w=[index for index,value in enumerate(spectra[spec][:,0]) if value > 1270 and value < 1350]
         #find the mean flux value in that region
         yscale[spec]=np.mean(spectra[spec][w,1])
-        print spec,np.mean(spectra[spec][w,1])
     for spec in yscale:
         #calculate the ratio between the flux of any given spectrum
         #and the scaleToName spectrum, this ratio will be the
@@ -503,14 +538,19 @@ def normalize(spectra,
             print 'xlimits'+'='+str(xlimits)
             print 'ylimits'+'='+str(ylimits)
             print 'RLF'+'='+str(RLF)
+            now = datetime.datetime.now()
             outfile=open(parmFile,'a')
-            outfile.write('------------------------------------------------------------\n')
+            outfile.write('-------------------------'+now.strftime("%Y-%m-%d %H:%M")+'-------------------------\n')
             outfile.write('smooth'+'='+str(smooth)+'\n')
             outfile.write('funcType'+'='+str(funcType)+'\n')
-            outfile.write('xlimits'+'='+str(xlimits)+'\n')
-            outfile.write('ylimits'+'='+str(ylimits)+'\n')
-            outfile.write('RLF'+'='+str(RLF)+'\n')
-            outfile.write('------------------------------------------------------------\n')
+            outfile.write('xlimits'+'='+str(xlimits[0])+','+str(xlimits[1])+'\n')
+            outfile.write('ylimits'+'='+str(ylimits[0])+','+str(ylimits[1])+'\n')
+            outfile.write('RLF=')
+            for r in RLF[:-1]:
+                outfile.write(str(r[0])+','+str(r[1])+',')
+            else:
+                outfile.write(str(RLF[-1][0])+','+str(RLF[-1][1])+'\n')
+            outfile.write('----------------------------------------------------------------------------\n')
             outfile.close()
             print '------------------------------------------------------------'
         elif user_input=='filename':
@@ -586,7 +626,7 @@ def normalize(spectra,
                 for i in range(len(spectraOriginal[spec][:,0])):
                     if spectraOriginal[spec][i,0] >= SNRreg[0] and spectraOriginal[spec][i,0] <= SNRreg[1]:
                         SNR=np.concatenate((w,([spectraOriginal[spec][i,1]/spectraOriginal[spec][i,2]])))
-                print '*** SNR in range '+str(SNRreg)+'is '+Str(np.median(SNR))
+                print '*** SNR in range '+str(SNRreg)+'is '+str(np.median(SNR))
                 #identify the indicies that reflect the given RLF windows
                 w=0
                 w=np.array([],dtype=int)
