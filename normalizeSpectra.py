@@ -579,7 +579,6 @@ def normalize(spectra,
             w=[round(temp[0],0),round(temp[1],0)]
             found=False
             for i,bounds in enumerate(RLF):
-                print w,bounds
                 if w==bounds:
                     found=True
                     if len(RLF)==1:
