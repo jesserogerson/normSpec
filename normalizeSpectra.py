@@ -622,10 +622,11 @@ def normalize(spectra,
                 flux_err=data[:,2]
                 print '----------------------------------------------------'
                 print '***Normalizing spectrum: '+spec
+                SNR=0
                 SNR=np.array([])
                 for i in range(len(spectraOriginal[spec][:,0])):
                     if spectraOriginal[spec][i,0] >= SNRreg[0] and spectraOriginal[spec][i,0] <= SNRreg[1]:
-                        SNR=np.concatenate((w,([spectraOriginal[spec][i,1]/spectraOriginal[spec][i,2]])))
+                        SNR=np.concatenate((SNR,([spectraOriginal[spec][i,1]/spectraOriginal[spec][i,2]])))
                 print '*** SNR in range '+str(SNRreg)+'is '+str(np.median(SNR))
                 #identify the indicies that reflect the given RLF windows
                 w=0
