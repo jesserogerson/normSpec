@@ -96,9 +96,9 @@ def plotNorm(spectra,
              RLF,
              colourDict,
              objInfo,
-             xlimits=[1200,1600]
-             ylimits=[0,2.5]
-             lw=0.5
+             xlimits=[1200,1600],
+             ylimits=[0,2.5],
+             lw=0.5,
              annotations=False):
     '''
     Plotting Program, build a normalized spectra plot from the plotlist
