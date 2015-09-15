@@ -393,17 +393,19 @@ def normalize(spectra,
         w=[index for index,value in enumerate(spectra[spec][:,0]) if value > 1270 and value < 1350]
         #find the mean flux value in that region
         yscale[spec]=np.mean(spectra[spec][w,1])
+        print spec,np.mean(spectra[spec][w,1])
     for spec in yscale:
         #calculate the ratio between the flux of any given spectrum
         #and the scaleToName spectrum, this ratio will be the
         #value you we scale the unnormalized spectra by for easy plotting
+        if spec==scaleToName:
+            continue
         yscale[spec]=yscale[scaleToName]/yscale[spec]
-
+    yscale[scaleToName]=1.0
     #while loop only escapes when asked
-    #'first' is designed to make the useability easier
-    #        the while loop first plots a spectrum, THEN asks
-    #        the user for input. But 'first' allows it to
-    #        execute the initially programmed command of
+    #'first' is designed to make the useability easier the while loop first
+    #        plots a spectrum, THEN ask the user for input. But 'first' allows
+    #        it to execute the initially programmed command of
     #        user_input='commands' so the user knows
     escape=False
     first=False
@@ -430,7 +432,7 @@ def normalize(spectra,
         for w in RLF:
             plt.axvspan(w[0],w[1],facecolor='0.9',linewidth=0)
         plt.xlabel('Rest-frame Wavelength (\AA)')
-        plt.ylabel('Normalized Flux Density (10$^{-17}$ erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$)')
+        plt.ylabel('Flux Density (10$^{-17}$ erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$)')
         plt.savefig(filename,transparent=False)
 
         #see above - skips the first question
