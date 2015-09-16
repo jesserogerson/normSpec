@@ -77,8 +77,9 @@ HISTORY
 2015-09-04 - JAR - original commit to github.com/jesserogerson
 2015-09-15 - JAR - multiple bug fixes, especially around parameter files
                  - added date/time to each writing of the param files
-2015-09-16 - JAR - multiple bug fixes
+2015-09-16 - JAR - multiple bug fixes, more user-entry validation
                  - in plotNorm, made legend lines thicker
+                 - added smoothing to plotNorm
 --------------------------------------------------------------------------
 '''
 #Libraries used
@@ -279,10 +280,13 @@ def plotNorm(spectra,
             print '############################################################'
         elif user_input=='lw':
             print '############################################################'
-            print 'Current linewidth:',lw
-            user_input=raw_input('Enter new linewidth (float):')
-            lw=float(user_input)
-            print 'New linewidth:',lw
+            try:
+                print 'Current linewidth:',lw
+                user_input=raw_input('Enter new linewidth (float):')
+                lw=float(user_input)
+                print 'New linewidth:',lw
+            except ValueError:
+                print 'That didnt make any sense!'
             print '############################################################'
         elif user_input=='xlimits':
             print '############################################################'
@@ -348,13 +352,6 @@ def plotNorm(spectra,
                 print user_input+': Not a valid entry. Back to command page.'
             print 'Plotting Relatively Line Free Windows:'+str(windows)
             print '############################################################'
-        elif user_input=='linewidth':
-            print '############################################################'
-            print 'Current Line Width=',lw
-            user_input=raw_input('Enter new LineWidth:')
-            lw=float(user_input)
-            print 'New LineWidth=',lw
-            print '############################################################'
         else:
             print '############################################################'
             print 'What chu talkin bout Willis'
@@ -369,7 +366,7 @@ def normalize(spectra,
               smooth=False,
               funcType='plaw',
               RLF=[[1270,1350],[1590,1620],[1650,1700]],
-              xlimits=[1000,1800],
+              xlimits=[1100,1800],
               ylimits=[0,20],
               SNRreg=[1600,1650]):
     '''
@@ -613,28 +610,31 @@ def normalize(spectra,
             print '------------------------------------------------------------'
             print 'Current RLF windows:',RLF
             print 'To add OR remove, enter the windows beginning/ending.'
-            user_input=raw_input('Enter a RLF window (comma separated):')
-            temp=map(float,user_input.split(','))
-            w=[round(temp[0],0),round(temp[1],0)]
-            found=False
-            for i,bounds in enumerate(RLF):
-                if w==bounds:
-                    found=True
-                    if len(RLF)==1:
-                        print 'Sorry, you cannot have an empty RLF array'
-                    elif len(RLF)==2:
-                        RLF.pop(i)
-                        print 'Removed:',w
-                        print '[WARNING]: Your RLF array now has only one entry.'
-                        print '[WARNING]: You are about to do bad science.'
-                    elif len(RLF)>=3:
-                        RLF.pop(i)
-                        print 'Removed:',w
-            if found==False:
-                print 'Added:',w
-                RLF.append(w)
-            w,temp=0,0
-            print 'New RLF windows:',RLF
+            try:
+                user_input=raw_input('Enter a RLF window (comma separated):')
+                temp=map(float,user_input.split(','))
+                w=[round(temp[0],0),round(temp[1],0)]
+                found=False
+                for i,bounds in enumerate(RLF):
+                    if w==bounds:
+                        found=True
+                        if len(RLF)==1:
+                            print 'Sorry, you cannot have an empty RLF array'
+                        elif len(RLF)==2:
+                            RLF.pop(i)
+                            print 'Removed:',w
+                            print '[WARNING]: Your RLF array now has only one entry.'
+                            print '[WARNING]: You are about to do bad science.'
+                        elif len(RLF)>=3:
+                            RLF.pop(i)
+                            print 'Removed:',w
+                if found==False:
+                    print 'Added:',w
+                    RLF.append(w)
+                w,temp=0,0
+                print 'New RLF windows:',RLF
+            except ValueError:
+                print 'That didnt make any sense, back to command page.'
             print '------------------------------------------------------------'
         elif user_input=='normalize':
             print '------------------------------------------------------------'
