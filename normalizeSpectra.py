@@ -77,6 +77,8 @@ HISTORY
 2015-09-04 - JAR - original commit to github.com/jesserogerson
 2015-09-15 - JAR - multiple bug fixes, especially around parameter files
                  - added date/time to each writing of the param files
+2015-09-16 - JAR - multiple bug fixes
+                 - in plotNorm, made legend lines thicker
 --------------------------------------------------------------------------
 '''
 #Libraries used
@@ -99,6 +101,7 @@ def plotNorm(spectra,
              RLF,
              colourDict,
              objInfo,
+             smooth=False,
              xlimits=[1200,1600],
              ylimits=[0,2.5],
              lw=0.5,
@@ -109,6 +112,7 @@ def plotNorm(spectra,
     yes=set(['yes','y','YES','Y',True,1])
     no=set(['no','n','NO','N',False,0])
 
+    normOrig=cp.deepcopy(spectra)
     #Search for normJHHMMSS.parm file?
     parmFile='plot'+objInfo['shortObjName']+'.parm'
     if os.path.exists(parmFile):
@@ -210,7 +214,9 @@ def plotNorm(spectra,
             #ax1.plot([1550,1550],[1.6,1.7],'k',linewidth=1)
             #ax1.plot([1400,1400],[1.6,1.7],'k',linewidth=1)
             #Adding the legend
-            ax1.legend(loc='lower left',prop={'size':12})
+            leg=ax1.legend(loc='lower left',prop={'size':12})
+            for legobj in leg.legendHandles:
+                legobj.set_linewidth(2.5)
         plt.savefig(filename)
 
         #let it play the first 'options' command first
@@ -231,7 +237,22 @@ def plotNorm(spectra,
             print 'plotlist       : add or remove spectra from final plot.'
             print 'annotations    : turn on/off annotations/legend/etc'
             print 'lw             : change linewidth for plotted spectra'
+            print 'smooth         : smooth the spectra.'
             print 'writeparm      : write to file plotting parameters.'
+            print '############################################################'
+        elif user_input=='smooth':
+            print '############################################################'
+            user_input=raw_input('Turn on smoothing? [y,n]:')
+            if user_input in yes:
+                smooth=True
+                for spec in spectra:
+                    spectra[spec][:,1]=np.array(jarTools.boxcarSmooth(spectra[spec][:,1]))
+            elif user_input in no:
+                smooth=False
+                spectra=cp.deepcopy(normOrig)
+            else:
+                print user_input+': Not a valid entry. Back to command page.'
+            print 'Smoothing:'+str(smooth)
             print '############################################################'
         elif user_input=='writeparm':
             print '############################################################'
@@ -327,7 +348,7 @@ def plotNorm(spectra,
                 print user_input+': Not a valid entry. Back to command page.'
             print 'Plotting Relatively Line Free Windows:'+str(windows)
             print '############################################################'
-        elif user_inputs=='linewidth':
+        elif user_input=='linewidth':
             print '############################################################'
             print 'Current Line Width=',lw
             user_input=raw_input('Enter new LineWidth:')
@@ -465,11 +486,11 @@ def normalize(spectra,
         plt.xlim(xlimits[0],xlimits[1])
         plt.ylim(ylimits[0],ylimits[1])
         for spec in normList:
-            plt.plot(spectra[spec][:,0],(spectra[spec][:,1]*yscale[spec]),colourDict[spec])
+            plt.plot(spectra[spec][:,0],(spectra[spec][:,1]*yscale[spec]),color=colourDict[spec])
         for spec in normList:
             if spec not in spectraNormalized:
                 continue
-            plt.plot(spectra[spec][:,0],yscale[spec]*(spectra[spec][:,1]/spectraNormalized[spec][:,1]),str(colourDict[spec])+'--')
+            plt.plot(spectra[spec][:,0],yscale[spec]*(spectra[spec][:,1]/spectraNormalized[spec][:,1]),color=colourDict[spec],linestyle='--')
         for w in RLF:
             plt.axvspan(w[0],w[1],facecolor='0.9',linewidth=0)
         plt.xlabel('Rest-frame Wavelength (\AA)')
