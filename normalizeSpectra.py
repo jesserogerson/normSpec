@@ -265,15 +265,21 @@ def plotNorm(spectra,
             print '############################################################'
         elif user_input=='xlimits':
             print '############################################################'
-            user_input=raw_input('Enter new x-axis limits (comma separated):')
-            xlimits=map(float,user_input.split(','))
-            print 'Reset figure xlimits to:'+str(xlimits)
+            try:
+                user_input=raw_input('Enter new x-axis limits (comma separated):')
+                xlimits=map(float,user_input.split(','))
+                print 'Reset figure xlimits to:'+str(xlimits)
+            except ValueError:
+                print 'Nope, no good, maybe you typed something wrong?'
             print '############################################################'
         elif user_input=='ylimits':
             print '############################################################'
-            user_input=raw_input('Enter new y-axis limits (comma separated):')
-            ylimits=map(float,user_input.split(','))
-            print 'Reset figure ylimits to:'+str(ylimits)
+            try:
+                user_input=raw_input('Enter new y-axis limits (comma separated):')
+                ylimits=map(float,user_input.split(','))
+                print 'Reset figure ylimits to:'+str(ylimits)
+            except ValueError:
+                print 'Not a real set of numbers... somethings wrong'
             print '############################################################'
         elif user_input=='annotations':
             print '############################################################'
@@ -492,21 +498,30 @@ def normalize(spectra,
             print '------------------------------------------------------------'
         elif user_input=='xlimits':
             print '------------------------------------------------------------'
-            user_input=raw_input('Enter new x-axis limits (comma separated):')
-            xlimits=map(float,user_input.split(','))
-            print 'Reset figure xlimits to:'+str(xlimits)
+            try:
+                user_input=raw_input('Enter new x-axis limits (comma separated):')
+                xlimits=map(float,user_input.split(','))
+                print 'Reset figure xlimits to:'+str(xlimits)
+            except ValueError:
+                print 'That aint valid, yo..'
             print '------------------------------------------------------------'
         elif user_input=='ylimits':
             print '------------------------------------------------------------'
-            user_input=raw_input('Enter new y-axis limits (comma separated):')
-            ylimits=map(float,user_input.split(','))
-            print 'Reset figure ylimits to:'+str(ylimits)
+            try:
+                user_input=raw_input('Enter new y-axis limits (comma separated):')
+                ylimits=map(float,user_input.split(','))
+                print 'Reset figure ylimits to:'+str(ylimits)
+            except ValueError:
+                print 'try not sucking at typing... that might work...'
             print '------------------------------------------------------------'
         elif user_input=='SNRreg':
             print '------------------------------------------------------------'
-            user_input=raw_input('Enter new region to calculate SNR (comma separated):')
-            SNRreg=map(float,user_input.split(','))
-            print 'Reset figure SNRreg to:'+str(SNRreg)
+            try:
+                user_input=raw_input('Enter new region to calculate SNR (comma separated):')
+                SNRreg=map(float,user_input.split(','))
+                print 'Reset figure SNRreg to:'+str(SNRreg)
+            except ValueError:
+                print 'Try again mo fo... that didnt work'
             print '------------------------------------------------------------'
         elif user_input=='q' or user_input=='Q':
             escape=True
@@ -555,9 +570,12 @@ def normalize(spectra,
             print '------------------------------------------------------------'
         elif user_input=='filename':
             print '------------------------------------------------------------'
-            user_input=raw_input('Enter a filename ( .eps will be added to end):')
-            filename=user_input+'.eps'
-            print 'Reset output filename to:'+str(filename)
+            try:
+                user_input=raw_input('Enter a filename ( .eps will be added to end):')
+                filename=user_input+'.eps'
+                print 'Reset output filename to:'+str(filename)
+            except ValueError:
+                print 'wha happen?'
             print '------------------------------------------------------------'
         elif user_input=='normlist':
             print '------------------------------------------------------------'
