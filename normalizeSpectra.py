@@ -80,7 +80,10 @@ HISTORY
 2015-09-16 - JAR - multiple bug fixes, more user-entry validation
                  - in plotNorm, made legend lines thicker
                  - added smoothing to plotNorm
---------------------------------------------------------------------------
+2015-09-21 - JAR - addd SNRreg to normJHHMMSS.parm file
+                 - changed defaults of lw, smooth, xlimits
+                 - made parmfiles automatically written when quit or normalize
+--------------------------------------------------------------------------------
 '''
 #Libraries used
 import scipy.optimize as spot
@@ -105,7 +108,7 @@ def plotNorm(spectra,
              smooth=False,
              xlimits=[1200,1600],
              ylimits=[0,2.5],
-             lw=0.5,
+             lw=1.0,
              annotations=False):
     '''
     Plotting Program, build a normalized spectra plot from the plotlist
@@ -239,7 +242,6 @@ def plotNorm(spectra,
             print 'annotations    : turn on/off annotations/legend/etc'
             print 'lw             : change linewidth for plotted spectra'
             print 'smooth         : smooth the spectra.'
-            print 'writeparm      : write to file plotting parameters.'
             print '############################################################'
         elif user_input=='smooth':
             print '############################################################'
@@ -254,29 +256,6 @@ def plotNorm(spectra,
             else:
                 print user_input+': Not a valid entry. Back to command page.'
             print 'Smoothing:'+str(smooth)
-            print '############################################################'
-        elif user_input=='writeparm':
-            print '############################################################'
-            print 'Writing current plotting parameters to:',parmFile
-            print 'xlimits'+'='+str(xlimits)
-            print 'ylimits'+'='+str(ylimits)
-            print 'RLF'+'='+str(RLF)
-            print 'annotations'+'='+str(annotations)
-            print 'lw'+'='+str(lw)
-            now = datetime.datetime.now()
-            outfile=open(parmFile,'a')
-            outfile.write('-------------------------'+now.strftime("%Y-%m-%d %H:%M")+'------------------------\n')
-            outfile.write('annotations'+'='+str(annotations)+'\n')
-            outfile.write('lw'+'='+str(lw)+'\n')
-            outfile.write('xlimits'+'='+str(xlimits[0])+','+str(xlimits[1])+'\n')
-            outfile.write('ylimits'+'='+str(ylimits[0])+','+str(ylimits[1])+'\n')
-            outfile.write('RLF'+'=')
-            for r in RLF[:-1]:
-                outfile.write(str(r[0])+','+str(r[1])+',')
-            else:
-                outfile.write(str(RLF[-1][0])+','+str(RLF[-1][1])+'\n')
-            outfile.write('----------------------------------------------------------------------------\n')
-            outfile.close()
             print '############################################################'
         elif user_input=='lw':
             print '############################################################'
@@ -322,6 +301,27 @@ def plotNorm(spectra,
             print '############################################################'
             escape=True
             print 'Quitting'
+            print ''
+            print 'Writing current plotting parameters to:',parmFile
+            print 'xlimits'+'='+str(xlimits)
+            print 'ylimits'+'='+str(ylimits)
+            print 'RLF'+'='+str(RLF)
+            print 'annotations'+'='+str(annotations)
+            print 'lw'+'='+str(lw)
+            now = datetime.datetime.now()
+            outfile=open(parmFile,'a')
+            outfile.write('-------------------------'+now.strftime("%Y-%m-%d %H:%M")+'------------------------\n')
+            outfile.write('annotations'+'='+str(annotations)+'\n')
+            outfile.write('lw'+'='+str(lw)+'\n')
+            outfile.write('xlimits'+'='+str(xlimits[0])+','+str(xlimits[1])+'\n')
+            outfile.write('ylimits'+'='+str(ylimits[0])+','+str(ylimits[1])+'\n')
+            outfile.write('RLF'+'=')
+            for r in RLF[:-1]:
+                outfile.write(str(r[0])+','+str(r[1])+',')
+            else:
+                outfile.write(str(RLF[-1][0])+','+str(RLF[-1][1])+'\n')
+            outfile.write('----------------------------------------------------------------------------\n')
+            outfile.close()
             print '############################################################'
         elif user_input=='filename':
             print '############################################################'
@@ -388,7 +388,7 @@ def normalize(spectra,
             parmDict={}
             with open(parmFile,'r') as f:
                 s=f.readlines()
-                for line in s[-6:-1]:
+                for line in s[-7:-1]:
                     listedline=line.strip().split('=')
                     parmDict[listedline[0]]=listedline[1]
             f.close()
@@ -398,6 +398,7 @@ def normalize(spectra,
             else:
                 smooth=False
             funcType=str(parmDict['funcType'])
+            SNRreg=map(float,parmDict['SNRreg'].split(','))
             xlimits=map(float,parmDict['xlimits'].split(','))
             ylimits=map(float,parmDict['ylimits'].split(','))
             temp=map(float,parmDict['RLF'].split(','))
@@ -534,6 +535,7 @@ def normalize(spectra,
             print '------------------------------------------------------------'
         elif user_input=='SNRreg':
             print '------------------------------------------------------------'
+            print 'Current region to calculate SNR over:',SNRreg
             try:
                 user_input=raw_input('Enter new region to calculate SNR (comma separated):')
                 SNRreg=map(float,user_input.split(','))
@@ -561,30 +563,6 @@ def normalize(spectra,
             print 'filename       : change name of image file'
             print 'normalize      : execute normalization.'
             print 'normlist       : add or remove spectra from final plot.'
-            print 'writeparm      : write to file all normalization parameters. (JHHMMSS.parm)'
-            print '------------------------------------------------------------'
-        elif user_input=='writeparm':
-            print '------------------------------------------------------------'
-            print 'Writing current normalization parameters to:',parmFile
-            print 'smooth'+'='+str(smooth)
-            print 'funcType'+'='+str(funcType)
-            print 'xlimits'+'='+str(xlimits)
-            print 'ylimits'+'='+str(ylimits)
-            print 'RLF'+'='+str(RLF)
-            now = datetime.datetime.now()
-            outfile=open(parmFile,'a')
-            outfile.write('-------------------------'+now.strftime("%Y-%m-%d %H:%M")+'-------------------------\n')
-            outfile.write('smooth'+'='+str(smooth)+'\n')
-            outfile.write('funcType'+'='+str(funcType)+'\n')
-            outfile.write('xlimits'+'='+str(xlimits[0])+','+str(xlimits[1])+'\n')
-            outfile.write('ylimits'+'='+str(ylimits[0])+','+str(ylimits[1])+'\n')
-            outfile.write('RLF=')
-            for r in RLF[:-1]:
-                outfile.write(str(r[0])+','+str(r[1])+',')
-            else:
-                outfile.write(str(RLF[-1][0])+','+str(RLF[-1][1])+'\n')
-            outfile.write('----------------------------------------------------------------------------\n')
-            outfile.close()
             print '------------------------------------------------------------'
         elif user_input=='filename':
             print '------------------------------------------------------------'
@@ -637,6 +615,29 @@ def normalize(spectra,
                 print 'That didnt make any sense, back to command page.'
             print '------------------------------------------------------------'
         elif user_input=='normalize':
+            print '------------------------------------------------------------'
+            print 'Writing current normalization parameters to:',parmFile
+            print 'SNRreg'+'='+str(SNRreg)
+            print 'smooth'+'='+str(smooth)
+            print 'funcType'+'='+str(funcType)
+            print 'xlimits'+'='+str(xlimits)
+            print 'ylimits'+'='+str(ylimits)
+            print 'RLF'+'='+str(RLF)
+            now = datetime.datetime.now()
+            outfile=open(parmFile,'a')
+            outfile.write('-------------------------'+now.strftime("%Y-%m-%d %H:%M")+'-------------------------\n')
+            outfile.write('SNRreg'+'='+str(SNRreg[0])+','+str(SNRreg[1])+'\n')
+            outfile.write('smooth'+'='+str(smooth)+'\n')
+            outfile.write('funcType'+'='+str(funcType)+'\n')
+            outfile.write('xlimits'+'='+str(xlimits[0])+','+str(xlimits[1])+'\n')
+            outfile.write('ylimits'+'='+str(ylimits[0])+','+str(ylimits[1])+'\n')
+            outfile.write('RLF=')
+            for r in RLF[:-1]:
+                outfile.write(str(r[0])+','+str(r[1])+',')
+            else:
+                outfile.write(str(RLF[-1][0])+','+str(RLF[-1][1])+'\n')
+            outfile.write('----------------------------------------------------------------------------\n')
+            outfile.close()
             print '------------------------------------------------------------'
             print '***Normalizing the following spectra:'
             print normList
