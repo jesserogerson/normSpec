@@ -545,6 +545,30 @@ def normalize(spectra,
             print '------------------------------------------------------------'
         elif user_input=='q' or user_input=='Q':
             escape=True
+            print '------------------------------------------------------------'
+            print 'Writing current normalization parameters to:',parmFile
+            print 'SNRreg'+'='+str(SNRreg)
+            print 'smooth'+'='+str(smooth)
+            print 'funcType'+'='+str(funcType)
+            print 'xlimits'+'='+str(xlimits)
+            print 'ylimits'+'='+str(ylimits)
+            print 'RLF'+'='+str(RLF)
+            now = datetime.datetime.now()
+            outfile=open(parmFile,'a')
+            outfile.write('-------------------------'+now.strftime("%Y-%m-%d %H:%M")+'-------------------------\n')
+            outfile.write('SNRreg'+'='+str(SNRreg[0])+','+str(SNRreg[1])+'\n')
+            outfile.write('smooth'+'='+str(smooth)+'\n')
+            outfile.write('funcType'+'='+str(funcType)+'\n')
+            outfile.write('xlimits'+'='+str(xlimits[0])+','+str(xlimits[1])+'\n')
+            outfile.write('ylimits'+'='+str(ylimits[0])+','+str(ylimits[1])+'\n')
+            outfile.write('RLF=')
+            for r in RLF[:-1]:
+                outfile.write(str(r[0])+','+str(r[1])+',')
+            else:
+                outfile.write(str(RLF[-1][0])+','+str(RLF[-1][1])+'\n')
+            outfile.write('----------------------------------------------------------------------------\n')
+            outfile.close()
+            print '------------------------------------------------------------'
         elif user_input=='commands':
             print '------------------------------------------------------------'
             print 'You can change the parameters which your spectra'
