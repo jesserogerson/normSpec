@@ -52,8 +52,8 @@ line7: label1 MJD4 /path/to/raw/spec4/
 lineF: labelN MJDN /path/to/raw/specN/
 
 The *.card file may have an arbitrary number of raw spectra for normalization
-but the first three lines MUST be name/RA DEC/redshift. The raw spectra lines
-MUST be label MHD path (space separated).
+but the first four lines MUST be name/RA DEC/gmag/redshift.
+The raw spectra lines MUST be label/MJD/path (space separated).
 
 HISTORY
 --------------------------------------------------------------------------------
