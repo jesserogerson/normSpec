@@ -83,6 +83,7 @@ HISTORY
 2015-09-21 - JAR - addd SNRreg to normJHHMMSS.parm file
                  - changed defaults of lw, smooth, xlimits
                  - made parmfiles automatically written when quit or normalize
+2015-09-24 - JAR - fixed the *.card read-in to account for the newly added gmag
 --------------------------------------------------------------------------------
 '''
 #Libraries used
@@ -775,12 +776,13 @@ objInfo['shortObjName']=filename[-12:-5]
 coords=lines[1].split()
 objInfo['RA']=float(coords[0])
 objInfo['Dec']=float(coords[1])
-objInfo['zem']=float(lines[2])
+objInfo['gmag']=float(lines[2])
+objInfo['zem']=float(lines[3])
 
 spectra={}
 normFileList={}
-#run a loop from 3rd line to end of lines
-for l in lines[3:]:
+#run a loop from 4th line to end of lines
+for l in lines[4:]:
     temp=l.split()
     key=temp[0] ### spectrum name must be FIRST!
     spectra[key]=np.genfromtxt(temp[2],usecols=(0,1,2))
@@ -790,6 +792,7 @@ for l in lines[3:]:
 print 'Information in card file:'
 print 'objName:',objInfo['objName']
 print 'redshift:',objInfo['zem']
+print 'g_mag:',objInfo['gmag']
 print 'RA:',objInfo['RA'],'Dec:',objInfo['Dec']
 print 'Spectra:',spectra.keys()
 print 'HK: scaling to rest-frame.'
