@@ -42,11 +42,12 @@ JHHMMSS.card <--- MUST be called this
 contents:
 line0: SDSS Jhhmmss.ss+/-ddmmss.s
 line1: RA Dec
-line2: redshift'
-line3: label1 MJD1 /path/to/raw/spec1/
-line4: label1 MJD2 /path/to/raw/spec2/
-line5: label1 MJD3 /path/to/raw/spec3/
-line6: label1 MJD4 /path/to/raw/spec4/
+line2: gmag
+line3: redshift
+line4: label1 MJD1 /path/to/raw/spec1/
+line5: label1 MJD2 /path/to/raw/spec2/
+line6: label1 MJD3 /path/to/raw/spec3/
+line7: label1 MJD4 /path/to/raw/spec4/
                 .
 lineF: labelN MJDN /path/to/raw/specN/
 
