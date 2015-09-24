@@ -85,6 +85,7 @@ HISTORY
                  - changed defaults of lw, smooth, xlimits
                  - made parmfiles automatically written when quit or normalize
 2015-09-24 - JAR - fixed the *.card read-in to account for the newly added gmag
+                 - bug fix: lw was reading in as str() not float()
 --------------------------------------------------------------------------------
 '''
 #Libraries used
@@ -140,7 +141,7 @@ def plotNorm(spectra,
                 annotations=True
             else:
                 annotations=False
-            lw=str(parmDict['lw'])
+            lw=float(parmDict['lw'])
             xlimits=map(float,parmDict['xlimits'].split(','))
             ylimits=map(float,parmDict['ylimits'].split(','))
             temp=map(float,parmDict['RLF'].split(','))
