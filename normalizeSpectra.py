@@ -86,6 +86,8 @@ HISTORY
                  - made parmfiles automatically written when quit or normalize
 2015-09-24 - JAR - fixed the *.card read-in to account for the newly added gmag
                  - bug fix: lw was reading in as str() not float()
+2015-09-25 - JAR - added an SNR output file, which takes all the SNRs calculated
+                   and outputs them, for use later.
 --------------------------------------------------------------------------------
 '''
 #Libraries used
@@ -670,6 +672,7 @@ def normalize(spectra,
             print normList
             print '(If all the spectra are not in the list above, it is because'
             print 'you took some out of the normlist)'
+            SNRoutput=objInfo['ObjName']
             for spec in normList:
                 data,normalized,lam,flux,flux_err=[],[],0,0,0
                 #validate: make sure the datacube is shape 3
@@ -694,6 +697,8 @@ def normalize(spectra,
                     if spectraOriginal[spec][i,0] >= SNRreg[0] and spectraOriginal[spec][i,0] <= SNRreg[1]:
                         SNR=np.concatenate((SNR,([spectraOriginal[spec][i,1]/spectraOriginal[spec][i,2]])))
                 print '*** SNR in range '+str(SNRreg)+'is '+str(np.median(SNR))
+                #prepping for SNR writeout
+                SNRoutput=SNRoutput+' '+spec+' '+str(np.median(SNR))
                 #identify the indicies that reflect the given RLF windows
                 w=0
                 w=np.array([],dtype=int)
@@ -737,6 +742,10 @@ def normalize(spectra,
                 print '*** Finished with: '+spec
             print '------------------------------------------------------------'
             print '*** All spectra are normalized'
+            print '*** writing Signal-to-Noise ratios to file...'
+            outfile=open('SNR_outfile.dat','a')
+            outfile.write(SNRoutput+'\n')
+            outfile.close
             print '*** calling plotting program'
             plotNorm(spectraNormalized,normList,RLF,colourDict,objInfo)
             user_input='commands'
