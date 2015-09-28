@@ -88,6 +88,7 @@ HISTORY
                  - bug fix: lw was reading in as str() not float()
 2015-09-25 - JAR - added an SNR output file, which takes all the SNRs calculated
                    and outputs them, for use later.
+2015-09-28 - JAR - changed SNRreg default from [1600,1650] to [1600,1700]
 --------------------------------------------------------------------------------
 '''
 #Libraries used
@@ -373,7 +374,7 @@ def normalize(spectra,
               RLF=[[1270,1350],[1590,1620],[1650,1700]],
               xlimits=[1100,1800],
               ylimits=[0,20],
-              SNRreg=[1600,1650]):
+              SNRreg=[1600,1700]):
     '''
     Normalization Routine
     '''
