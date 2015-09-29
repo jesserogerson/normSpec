@@ -681,7 +681,7 @@ def normalize(spectra,
             print normList
             print '(If all the spectra are not in the list above, it is because'
             print 'you took some out of the normlist)'
-            SNRoutput=objInfo['objName']+' '+str(SNRreg)
+            SNRoutput=objInfo['objName']+' '+str(SNRreg[0])+' '+str(SNRreg[1])
             for spec in normList:
                 data,normalized,lam,flux,flux_err=[],[],0,0,0
                 #validate: make sure the datacube is shape 3
