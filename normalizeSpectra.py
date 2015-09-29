@@ -111,7 +111,7 @@ def plotNorm(spectra,
              RLF,
              colourDict,
              objInfo,
-             smooth=False,
+             smooth=True,
              xlimits=[1200,1600],
              ylimits=[0,2.5],
              lw=1.0,
@@ -167,7 +167,10 @@ def plotNorm(spectra,
     print '### I made a plot for you. See-->',filename
     print '### be sure to refresh to see your changes take effect.'
     #plotList=cp.deepcopy(spectra.keys()) #the list that will be plotted
-
+    if smooth==True:
+        print '*** smoothing spectrum'
+        for spec in spectra:
+            spectra[spec][:,1]=np.array(jarTools.boxcarSmooth(spectra[spec][:,1]))
     escape=False
     first=False
     windows=False
@@ -369,11 +372,11 @@ def plotNorm(spectra,
 
 def normalize(spectra,
               objInfo,
-              smooth=False,
+              smooth=True,
               funcType='plaw',
-              RLF=[[1270,1350],[1590,1620],[1650,1700]],
+              RLF=[[1300,1320],[1590,1620],[1700,1750]],
               xlimits=[1100,1800],
-              ylimits=[0,20],
+              ylimits=[0,40],
               SNRreg=[1600,1700]):
     '''
     Normalization Routine
@@ -473,6 +476,10 @@ def normalize(spectra,
     #        plots a spectrum, THEN ask the user for input. But 'first' allows
     #        it to execute the initially programmed command of
     #        user_input='commands' so the user knows
+    if smooth==True:
+        print '*** smoothing spectrum'
+        for spec in spectra:
+            spectra[spec][:,1]=np.array(jarTools.boxcarSmooth(spectra[spec][:,1]))
     escape=False
     first=False
     user_input='commands'
