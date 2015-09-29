@@ -89,6 +89,7 @@ HISTORY
 2015-09-25 - JAR - added an SNR output file, which takes all the SNRs calculated
                    and outputs them, for use later.
 2015-09-28 - JAR - changed SNRreg default from [1600,1650] to [1600,1700]
+2015-09-29 - JAR - changed defaults for various passed parameters
 --------------------------------------------------------------------------------
 '''
 #Libraries used
