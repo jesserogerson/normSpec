@@ -90,6 +90,7 @@ HISTORY
                    and outputs them, for use later.
 2015-09-28 - JAR - changed SNRreg default from [1600,1650] to [1600,1700]
 2015-09-29 - JAR - changed defaults for various passed parameters
+                 - changed the SNR output file's format
 --------------------------------------------------------------------------------
 '''
 #Libraries used
