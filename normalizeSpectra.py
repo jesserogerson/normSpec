@@ -91,6 +91,7 @@ HISTORY
 2015-09-28 - JAR - changed SNRreg default from [1600,1650] to [1600,1700]
 2015-09-29 - JAR - changed defaults for various passed parameters
                  - changed the SNR output file's format
+2015-09-30 - JAR - added a print statement so user knows SNRreg from param file
 --------------------------------------------------------------------------------
 '''
 #Libraries used
@@ -416,6 +417,7 @@ def normalize(spectra,
             RLF=[[temp[0],temp[1]]]
             for t in range(2,len(temp)-1,2):
                 RLF.insert(0,[temp[t],temp[t+1]])
+            print '*** SNRreg'+'='+str(SNRreg)
             print '*** smooth'+'='+str(smooth)
             print '*** funcType'+'='+str(funcType)
             print '*** xlimits'+'='+str(xlimits)
