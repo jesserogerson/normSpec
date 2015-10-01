@@ -439,6 +439,9 @@ def normalize(spectra,
     colourDict={'SDSS':'k','SDSS1':'k','SDSS2':'0.70',
     'BOSS':'r','BOSS1':'r','BOSS2':'b',
     'GEM':'c','GEM1':'c','GEM2':'g','GEM3':'orange'}
+    colourDict={'SDSS1':'b','SDSS2':'g','SDSS3':'r','SDSS4':'c',
+    'SDSS5':'m','SDSS6':'y','SDSS7':'k','BOSS':'r','BOSS1':'r','BOSS2':'b',
+    'GEM':'c','GEM1':'c','GEM2':'g','GEM3':'orange'}
 
     #YSCALE - this is a dictionary that is used to automatically scale
     #the y-axis fluxes to be near eachother. (scaled to SDSS value)
