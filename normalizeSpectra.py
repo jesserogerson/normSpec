@@ -440,8 +440,10 @@ def normalize(spectra,
     'BOSS':'r','BOSS1':'r','BOSS2':'b',
     'GEM':'c','GEM1':'c','GEM2':'g','GEM3':'orange'}
     colourDict={'SDSS1':'b','SDSS2':'g','SDSS3':'r','SDSS4':'c',
-    'SDSS5':'m','SDSS6':'y','SDSS7':'k','BOSS':'r','BOSS1':'r','BOSS2':'b',
+    'SDSS5':'m','SDSS6':'y','BOSS':'r','BOSS1':'r','BOSS2':'b',
     'GEM':'c','GEM1':'c','GEM2':'g','GEM3':'orange'}
+    colourDict={'SDSS':'k','BOSS':'r',
+    'GEM1':'c','GEM2':'g','GEM3':'orange','GEM4':'m','GEM5':'b'}
 
     #YSCALE - this is a dictionary that is used to automatically scale
     #the y-axis fluxes to be near eachother. (scaled to SDSS value)
@@ -467,17 +469,17 @@ def normalize(spectra,
     yscale={}
     for spec in spectra:
         #find the region specified by 1270->1350
-        w=[index for index,value in enumerate(spectra[spec][:,0]) if value > 1270 and value < 1350]
+        w=[index for index,value in enumerate(spectra[spec][:,0]) if value > 1590 and value < 1650]
         #find the mean flux value in that region
         yscale[spec]=np.mean(spectra[spec][w,1])
-    #for spec in yscale:
-    #    #calculate the ratio between the flux of any given spectrum
-    #    #and the scaleToName spectrum, this ratio will be the
-    #    #value you we scale the unnormalized spectra by for easy plotting
-    #    if spec==scaleToName:
-    #        continue
-    #    yscale[spec]=yscale[scaleToName]/yscale[spec]
-    #yscale[scaleToName]=1.0
+    for spec in yscale:
+        #calculate the ratio between the flux of any given spectrum
+        #and the scaleToName spectrum, this ratio will be the
+        #value you we scale the unnormalized spectra by for easy plotting
+        if spec==scaleToName:
+            continue
+        yscale[spec]=yscale[scaleToName]/yscale[spec]
+    yscale[scaleToName]=1.0
     #while loop only escapes when asked
     #'first' is designed to make the useability easier the while loop first
     #        plots a spectrum, THEN ask the user for input. But 'first' allows
