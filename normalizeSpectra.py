@@ -470,14 +470,14 @@ def normalize(spectra,
         w=[index for index,value in enumerate(spectra[spec][:,0]) if value > 1270 and value < 1350]
         #find the mean flux value in that region
         yscale[spec]=np.mean(spectra[spec][w,1])
-    for spec in yscale:
-        #calculate the ratio between the flux of any given spectrum
-        #and the scaleToName spectrum, this ratio will be the
-        #value you we scale the unnormalized spectra by for easy plotting
-        if spec==scaleToName:
-            continue
-        yscale[spec]=yscale[scaleToName]/yscale[spec]
-    yscale[scaleToName]=1.0
+    #for spec in yscale:
+    #    #calculate the ratio between the flux of any given spectrum
+    #    #and the scaleToName spectrum, this ratio will be the
+    #    #value you we scale the unnormalized spectra by for easy plotting
+    #    if spec==scaleToName:
+    #        continue
+    #    yscale[spec]=yscale[scaleToName]/yscale[spec]
+    #yscale[scaleToName]=1.0
     #while loop only escapes when asked
     #'first' is designed to make the useability easier the while loop first
     #        plots a spectrum, THEN ask the user for input. But 'first' allows
