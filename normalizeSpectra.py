@@ -442,7 +442,7 @@ def normalize(spectra,
     colourDict={'SDSS1':'b','SDSS2':'g','SDSS3':'r','SDSS4':'c',
     'SDSS5':'m','SDSS6':'y','BOSS':'r','BOSS1':'r','BOSS2':'b',
     'GEM':'c','GEM1':'c','GEM2':'g','GEM3':'orange'}
-    colourDict={'SDSS':'k','BOSS':'r',
+    colourDict={'SDSS':'k','SDSS1':'k','SDSS2':'0.70','BOSS':'r',
     'GEM1':'c','GEM2':'g','GEM3':'orange','GEM4':'m','GEM5':'b'}
 
     #YSCALE - this is a dictionary that is used to automatically scale
