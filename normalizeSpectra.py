@@ -92,6 +92,10 @@ HISTORY
 2015-09-29 - JAR - changed defaults for various passed parameters
                  - changed the SNR output file's format
 2015-09-30 - JAR - added a print statement so user knows SNRreg from param file
+2015-10-01 - JAR - added dashed line at 1.0 (continuum) for normalized plot
+                   (also added minor tick marks to this plot on y-axis)
+                 - bug fix: adding/removing spectra from plot in plotNorm()
+                 - added SNRreg warning, is the SNRreg inside all lambda cover?
 --------------------------------------------------------------------------------
 '''
 #Libraries used
@@ -183,8 +187,10 @@ def plotNorm(spectra,
         #build a plot to play with
         fig = plt.figure()
         ax1=fig.add_subplot(111)
+        ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
         plt.rc('text',usetex=True)
         plt.rc('font',family='sans-serif')
+        plt.plot([100,10000],[1.0,1.0],'--','k')
 
         plt.xlim(xlimits[0],xlimits[1])
         plt.ylim(ylimits[0],ylimits[1])
@@ -348,9 +354,9 @@ def plotNorm(spectra,
             print 'To add OR remove, enter the name.'
             user_input=raw_input('Enter name of spectra:')
             if user_input in plotList:
-                plotList.remove(user_input)
+                normList.remove(user_input)
             elif user_input not in plotList:
-                plotList.append(user_input)
+                normList.append(user_input)
             print 'New list of spectra to plot:',plotList
             print '############################################################'
         elif user_input=='RLF':
@@ -524,6 +530,12 @@ def normalize(spectra,
         plt.xlabel('Rest-frame Wavelength (\AA)')
         plt.ylabel('Flux Density (10$^{-17}$ erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$)')
         plt.savefig(filename,transparent=False)
+
+        #SNRregion validation - do all spectra have coverage for this SNRreg?
+        for spec in normList:
+            if max(spectra[spec][:,0])<SNRreg[1]:
+                print '*** WARNING The SNR region youve selected doesnt'
+                print '    is not fully covered by'+spec
 
         #see above - skips the first question
         if first==True:
