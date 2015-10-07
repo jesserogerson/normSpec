@@ -187,7 +187,6 @@ def plotNorm(spectra,
         #build a plot to play with
         fig = plt.figure()
         ax1=fig.add_subplot(111)
-        ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
         plt.rc('text',usetex=True)
         plt.rc('font',family='sans-serif')
         plt.plot([100,10000],[1.0,1.0],'--',color='k')
@@ -226,6 +225,7 @@ def plotNorm(spectra,
         ax2.set_xticks([4000,4500,5000,5500]) #the ticks I want
         ax2.set_xlabel('Observed-frame Wavelength (\AA)')
         ax2.xaxis.set_minor_locator(MultipleLocator(100))
+        ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
 
         if annotations==True:
             #Adding Annotations
