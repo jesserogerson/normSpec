@@ -236,7 +236,10 @@ def plotNorm(spectra,
             #ax1.plot([1550,1550],[1.6,1.7],'k',linewidth=1)
             #ax1.plot([1400,1400],[1.6,1.7],'k',linewidth=1)
             #Adding the legend
-            leg=ax1.legend(loc='lower left',prop={'size':12})
+            if len(plotList)>=4:
+                leg=ax1.legend(loc='lower left',prop={'size':12},ncol=2)
+            else:
+                leg=ax1.legend(loc='lower left',prop={'size':12})
             for legobj in leg.legendHandles:
                 legobj.set_linewidth(2.5)
         plt.savefig(filename)
