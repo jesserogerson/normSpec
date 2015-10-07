@@ -190,7 +190,7 @@ def plotNorm(spectra,
         ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
         plt.rc('text',usetex=True)
         plt.rc('font',family='sans-serif')
-        plt.plot([100,10000],[1.0,1.0],'--','k')
+        plt.plot([100,10000],[1.0,1.0],'--',color='k')
 
         plt.xlim(xlimits[0],xlimits[1])
         plt.ylim(ylimits[0],ylimits[1])
