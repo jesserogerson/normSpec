@@ -96,6 +96,7 @@ HISTORY
                    (also added minor tick marks to this plot on y-axis)
                  - bug fix: adding/removing spectra from plot in plotNorm()
                  - added SNRreg warning, is the SNRreg inside all lambda cover?
+2015-10-08 - JAR - small changes to normalized plot
 --------------------------------------------------------------------------------
 '''
 #Libraries used
@@ -190,6 +191,7 @@ def plotNorm(spectra,
         plt.rc('text',usetex=True)
         plt.rc('font',family='sans-serif')
         plt.plot([100,10000],[1.0,1.0],'--',color='k')
+        plt.plot([100,10000],[0.9,0.9],':',color='k')
 
         plt.xlim(xlimits[0],xlimits[1])
         plt.ylim(ylimits[0],ylimits[1])
@@ -222,7 +224,7 @@ def plotNorm(spectra,
         #The 2nd axis (which is really just the top x-axis
         ax2=ax1.twiny() #copies everything from the y
         ax2.set_xlim(xlimits[0]*(1+objInfo['zem']),xlimits[1]*(1+objInfo['zem'])) #set the observed frame
-        ax2.set_xticks([4000,4500,5000,5500]) #the ticks I want
+        ax2.set_xticks([4000,4500,5000,5500,6000,6500,7000,7500]) #the ticks I want
         ax2.set_xlabel('Observed-frame Wavelength (\AA)')
         ax2.xaxis.set_minor_locator(MultipleLocator(100))
         ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
