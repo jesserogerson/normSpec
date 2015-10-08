@@ -224,7 +224,7 @@ def plotNorm(spectra,
         #The 2nd axis (which is really just the top x-axis
         ax2=ax1.twiny() #copies everything from the y
         ax2.set_xlim(xlimits[0]*(1+objInfo['zem']),xlimits[1]*(1+objInfo['zem'])) #set the observed frame
-        ax2.set_xticks([4000,4500,5000,5500,6000,6500,7000,7500]) #the ticks I want
+        #ax2.set_xticks([4000,4500,5000,5500,6000,6500,7000,7500]) #the ticks I want
         ax2.set_xlabel('Observed-frame Wavelength (\AA)')
         ax2.xaxis.set_minor_locator(MultipleLocator(100))
         ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
