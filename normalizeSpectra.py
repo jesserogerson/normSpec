@@ -191,6 +191,7 @@ def plotNorm(spectra,
         print '*** smoothing spectrum'
         for spec in spectra:
             spectra[spec][:,1]=np.array(jarTools.boxcarSmooth(spectra[spec][:,1]))
+    absDict={}
     escape=False
     first=False
     windows=False
@@ -251,14 +252,20 @@ def plotNorm(spectra,
             #ax1.plot([1550,1550],[1.6,1.7],'k',linewidth=1)
             #ax1.plot([1400,1400],[1.6,1.7],'k',linewidth=1)
             if plotIon==True:
-                ax1.plot([loc_civ,loc_civ],[-10,10],':',color='k')
+                #CIV
                 ax1.annotate('CIV',xy=(loc_civ,(ylimits[1]*0.2)))
-                ax1.plot([loc_siv,loc_siv],[-10,10],':',color='k')
-                ax1.annotate('SiIV',xy=(loc_siv,(ylimits[1]*0.2)))
-                ax1.plot([loc_nv,loc_nv],[-10,10],':',color='k')
+                ax1.plot([loc_civ,loc_civ],[-10,10],':',color='k')
+                #SiIV
+                ax1.annotate('SiIV',xy=(loc_siva,(ylimits[1]*0.2)))
+                ax1.plot([loc_siva,loc_siva],[-10,10],':',color='k')
+                ax1.plot([loc_sivb,loc_sivb],[-10,10],':',color='k')
+                #NV
                 ax1.annotate('NV',xy=(loc_nv,(ylimits[1]*0.2)))
-                ax1.plot([loc_lya,loc_lya],[-10,10],':',color='k')
+                ax1.plot([loc_nva,loc_nva],[-10,10],':',color='k')
+                ax1.plot([loc_nvb,loc_nvb],[-10,10],':',color='k')
+                #Lya
                 ax1.annotate('Lya',xy=(loc_lya,(ylimits[1]*0.2)))
+                ax1.plot([loc_lya,loc_lya],[-10,10],':',color='k')
             #Adding the legend
             if len(plotList)>=4:
                 leg=ax1.legend(loc='lower left',prop={'size':12},ncol=2)
@@ -294,19 +301,35 @@ def plotNorm(spectra,
             print '############################################################'
         elif user_input=='ion':
             print '############################################################'
-            user_input=raw_input('Where is your CIV abs?:')
-            loc_civ=float(user_input)
-            bshift=(loc_civ-civ_0b)/civ_0b
-            loc_siv=siv_0b+(bshift*siv_0b)
-            loc_nv=nv_0b+(bshift*nv_0b)
-            loc_lya=lya_0+(bshift*lya_0)
-            print 'Found locations of other ions: SiIV, NV, Lya'
-            print 'Location of  CIV absorption:',loc_civ
-            print 'Location of SiIV absorption:',loc_siv
-            print 'Location of   NV absorption:',loc_nv
-            print 'Location of  Lya absorption:',loc_lya
-            print 'Turn on annotations to see them plotted.'
-            plotIon=True
+            print 'Here is the current list of CIV absorbers youve found:'
+            print absDict
+            print 'Enter the key to remove from the list of absorbers'
+            print '-OR-'
+            print 'Enter a new CIV absorber location.'
+            user_input=raw_input('entry:')
+            ans=float(user_input)
+            if ans in absDict.keys():
+                del absDict[ans]
+                print 'New list of CIV absorbers'
+                print absDict
+                #if the dictionary is empty, turn off the plotting
+                if not absDict:
+                    plotIon=False
+            else:
+                loc_civ=ans
+                bshift=(loc_civ-civ_0b)/civ_0b
+                loc_siva=siv_0a+(bshift*siv_0a)
+                loc_sivb=siv_0b+(bshift*siv_0b)
+                loc_nva=nv_0a+(bshift*nv_0a)
+                loc_nvb=nv_0b+(bshift*nv_0b)
+                loc_lya=lya_0+(bshift*lya_0)
+                print 'Found locations of other ions: SiIV, NV, Lya'
+                print 'Location of  CIV absorption:',loc_civ
+                print 'Location of SiIV absorption:',loc_siva,loc_sivb
+                print 'Location of   NV absorption:',loc_nva,loc_nvb
+                print 'Location of  Lya absorption:',loc_lya
+                print 'Turn on annotations to see them plotted.'
+                plotIon=True
             print '############################################################'
         elif user_input=='smooth':
             print '############################################################'
