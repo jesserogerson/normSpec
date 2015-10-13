@@ -265,6 +265,7 @@ def plotNorm(spectra,
                 legobj.set_linewidth(2.5)
 
         #Setting labels, ticks, limits on y-axis and bottom x-axis
+        ax1.set_atuoscale_on(False)
         ax1.set_xlabel('Rest-frame Wavelength (\AA)')
         ax1.set_ylabel('Normalized Flux Density (10$^{-17}$ erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$)')
         ax1.set_xbound(xlimits[0],xlimits[1])
@@ -273,6 +274,7 @@ def plotNorm(spectra,
         ax1.xaxis.set_minor_locator(MultipleLocator(25))
 
         #The 2nd axis (which is really just the top x-axis
+        ax2.set_atuoscale_on(False)
         ax2=ax1.twiny() #copies everything from the y
         ax2.set_xbound(xlimits[0]*(1+objInfo['zem']),xlimits[1]*(1+objInfo['zem'])) #set the observed frame
         #ax2.set_xticks([4000,4500,5000,5500,6000,6500,7000,7500]) #the ticks I want
