@@ -285,7 +285,7 @@ def plotNorm(spectra,
             print 'smooth         : smooth the spectra.'
             print 'ion            : put locations of expected siv, nv, etc.'
             print '############################################################'
-        elif user_input='ion':
+        elif user_input=='ion':
             print '############################################################'
             user_input=raw_input('Where is your CIV abs?:')
             loc_civ=float(user_input)
