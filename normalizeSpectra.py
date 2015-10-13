@@ -269,7 +269,7 @@ def plotNorm(spectra,
         ax1.set_xlabel('Rest-frame Wavelength (\AA)')
         ax1.set_ylabel('Normalized Flux Density (10$^{-17}$ erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$)')
         ax1.set_xlim(xlimits[0],xlimits[1])
-        ax1.set_xticks([1250,1350,1450,1550,1650])
+        #ax1.set_xticks([1250,1350,1450,1550,1650])
         ax1.set_ylim(ylimits[0],ylimits[1])
         ax1.xaxis.set_minor_locator(MultipleLocator(25))
 
