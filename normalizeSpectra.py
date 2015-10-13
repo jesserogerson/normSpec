@@ -262,8 +262,8 @@ def plotNorm(spectra,
                 leg=ax1.legend(loc='lower left',prop={'size':12})
             for legobj in leg.legendHandles:
                 legobj.set_linewidth(2.5)
-            plt.xlim(xlimits[0],xlimits[1])
-            plt.ylim(ylimits[0],ylimits[1])
+            ax1.xlim(xlimits[0],xlimits[1])
+            ax1.ylim(ylimits[0],ylimits[1])
         plt.savefig(filename)
 
         #let it play the first 'options' command first
@@ -295,6 +295,10 @@ def plotNorm(spectra,
             loc_siv=siv_0b+(bshift*siv_0b)
             loc_nv=nv_0b+(bshift*nv_0b)
             loc_lya=lya_0+(bshift*lya_0)
+            print loc_civ
+            print loc_siv
+            print loc_nv
+            print loc_lya
             print 'Found locations of other ions: SiIV, NV, Lya'
             print 'Turn on annotations to see them plotted.'
             plotIon=True
