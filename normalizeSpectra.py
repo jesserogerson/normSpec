@@ -251,10 +251,10 @@ def plotNorm(spectra,
             #ax1.plot([1550,1550],[1.6,1.7],'k',linewidth=1)
             #ax1.plot([1400,1400],[1.6,1.7],'k',linewidth=1)
             if plotIon==True:
-                ax1.plot([loc_civ,loc_civ],[-10,10],color='k',':')
-                ax1.plot([loc_siv,loc_siv],[-10,10],color='k',':')
-                ax1.plot([loc_nv,loc_nv],[-10,10],color='k',':')
-                ax1.plot([loc_lya,loc_lya],[-10,10],color='k',':')
+                plt.plot([loc_civ,loc_civ],[-10,10],':,'color='k')
+                plt.plot([loc_siv,loc_siv],[-10,10],':',color='k')
+                plt.plot([loc_nv,loc_nv],[-10,10],':',color='k')
+                plt.plot([loc_lya,loc_lya],[-10,10],':',color='k')
             #Adding the legend
             if len(plotList)>=4:
                 leg=ax1.legend(loc='lower left',prop={'size':12},ncol=2)
