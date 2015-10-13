@@ -97,6 +97,10 @@ HISTORY
                  - bug fix: adding/removing spectra from plot in plotNorm()
                  - added SNRreg warning, is the SNRreg inside all lambda cover?
 2015-10-08 - JAR - small changes to normalized plot
+2015-10-12 - JAR - added global variables for ion rest-frame locations
+                 - user may now choose a location of civ abs and look for
+                   absorption due to siv, nv, and lya. User can plot the rest-frame
+                   frame wavelength of the expected locations of these ions
 --------------------------------------------------------------------------------
 '''
 #Libraries used
@@ -112,6 +116,14 @@ import os.path
 import argparse
 import jarTools
 import datetime
+
+civ_0a=1550.774 #CIV
+civ_0b=1548.202 #CIV
+siv_0a=1402.770 #SiIV
+siv_0b=1393.755 #SiIV
+nv_0a=1242.804 #NV
+nv_0b=1238.821 #NV
+lya_0=1215.6701 #Lya
 
 ####declare methods() and functions()
 def plotNorm(spectra,
@@ -183,6 +195,7 @@ def plotNorm(spectra,
     first=False
     windows=False
     annotations=True
+    plotIon=False
     user_input='commands'
     while escape==False:
         #build a plot to play with
@@ -237,6 +250,11 @@ def plotNorm(spectra,
             #ax1.annotate('SIV',xy=(1392,1.73))
             #ax1.plot([1550,1550],[1.6,1.7],'k',linewidth=1)
             #ax1.plot([1400,1400],[1.6,1.7],'k',linewidth=1)
+            if plotIon==True:
+                ax1.plot([loc_civ,loc_civ],[-10,10],color='k',':')
+                ax1.plot([loc_siv,loc_siv],[-10,10],color='k',':')
+                ax1.plot([loc_nv,loc_nv],[-10,10],color='k',':')
+                ax1.plot([loc_lya,loc_lya],[-10,10],color='k',':')
             #Adding the legend
             if len(plotList)>=4:
                 leg=ax1.legend(loc='lower left',prop={'size':12},ncol=2)
@@ -265,6 +283,19 @@ def plotNorm(spectra,
             print 'annotations    : turn on/off annotations/legend/etc'
             print 'lw             : change linewidth for plotted spectra'
             print 'smooth         : smooth the spectra.'
+            print 'ion            : put locations of expected siv, nv, etc.'
+            print '############################################################'
+        elif user_input='ion':
+            print '############################################################'
+            user_input=raw_input('Where is your CIV abs?:')
+            loc_civ=float(user_input)
+            bshift=(loc_civ-civ_0b)/civ_0b
+            loc_siv=siv_0b+(bshift*siv_0b)
+            loc_nv=nv_0b+(bshift*nv_0b)
+            loc_lya=lya_0+(bshift*lya_0)
+            print 'Found locations of other ions: SiIV, NV, Lya'
+            print 'Turn on annotations to see them plotted.'
+            plotIon=True
             print '############################################################'
         elif user_input=='smooth':
             print '############################################################'
