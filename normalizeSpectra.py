@@ -203,6 +203,7 @@ def plotNorm(spectra,
         #build a plot to play with
         fig = plt.figure()
         ax1=fig.add_subplot(111)
+        ax1.set_autoscale_on(False)
         plt.rc('text',usetex=True)
         plt.rc('font',family='sans-serif')
         ax1.plot([100,10000],[1.0,1.0],'--',color='k')
@@ -265,17 +266,16 @@ def plotNorm(spectra,
                 legobj.set_linewidth(2.5)
 
         #Setting labels, ticks, limits on y-axis and bottom x-axis
-        ax1.set_atuoscale_on(False)
         ax1.set_xlabel('Rest-frame Wavelength (\AA)')
         ax1.set_ylabel('Normalized Flux Density (10$^{-17}$ erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$)')
-        ax1.set_xbound(xlimits[0],xlimits[1])
+        ax1.set_xlim(xlimits[0],xlimits[1])
         ax1.set_xticks([1250,1350,1450,1550,1650])
-        ax1.set_ybound(ylimits[0],ylimits[1])
+        ax1.set_ylim(ylimits[0],ylimits[1])
         ax1.xaxis.set_minor_locator(MultipleLocator(25))
 
         #The 2nd axis (which is really just the top x-axis
-        ax2.set_atuoscale_on(False)
         ax2=ax1.twiny() #copies everything from the y
+        ax2.set_autoscale_on(False)
         ax2.set_xbound(xlimits[0]*(1+objInfo['zem']),xlimits[1]*(1+objInfo['zem'])) #set the observed frame
         #ax2.set_xticks([4000,4500,5000,5500,6000,6500,7000,7500]) #the ticks I want
         ax2.set_xlabel('Observed-frame Wavelength (\AA)')
