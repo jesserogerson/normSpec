@@ -227,23 +227,6 @@ def plotNorm(spectra,
         if windows==True:
             for w in RLF:
                 plt.axvspan(w[0],w[1],facecolor='0.8',linewidth=0)
-
-        #Setting labels, ticks, limits on y-axis and bottom x-axis
-        ax1.set_xlabel('Rest-frame Wavelength (\AA)')
-        ax1.set_ylabel('Normalized Flux Density (10$^{-17}$ erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$)')
-        ax1.set_xlim(xlimits[0],xlimits[1])
-        ax1.set_xticks([1250,1350,1450,1550,1650])
-        ax1.set_ylim(ylimits[0],ylimits[1])
-        ax1.xaxis.set_minor_locator(MultipleLocator(25))
-
-        #The 2nd axis (which is really just the top x-axis
-        ax2=ax1.twiny() #copies everything from the y
-        ax2.set_xlim(xlimits[0]*(1+objInfo['zem']),xlimits[1]*(1+objInfo['zem'])) #set the observed frame
-        #ax2.set_xticks([4000,4500,5000,5500,6000,6500,7000,7500]) #the ticks I want
-        ax2.set_xlabel('Observed-frame Wavelength (\AA)')
-        ax2.xaxis.set_minor_locator(MultipleLocator(100))
-        ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
-
         if annotations==True:
             #Adding Annotations
             ax1.annotate(objInfo['objName'],xy=(1275,(ylimits[1]*0.95)))
@@ -281,9 +264,22 @@ def plotNorm(spectra,
                 leg=ax1.legend(loc='lower left',prop={'size':12})
             for legobj in leg.legendHandles:
                 legobj.set_linewidth(2.5)
-            ax1.set_xlim(xlimits[0],xlimits[1])
-            ax1.set_xticks([1250,1350,1450,1550,1650])
-            ax1.set_ylim(ylimits[0],ylimits[1])
+
+        #Setting labels, ticks, limits on y-axis and bottom x-axis
+        ax1.set_xlabel('Rest-frame Wavelength (\AA)')
+        ax1.set_ylabel('Normalized Flux Density (10$^{-17}$ erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$)')
+        ax1.set_xlim(xlimits[0],xlimits[1])
+        ax1.set_xticks([1250,1350,1450,1550,1650])
+        ax1.set_ylim(ylimits[0],ylimits[1])
+        ax1.xaxis.set_minor_locator(MultipleLocator(25))
+
+        #The 2nd axis (which is really just the top x-axis
+        ax2=ax1.twiny() #copies everything from the y
+        ax2.set_xlim(xlimits[0]*(1+objInfo['zem']),xlimits[1]*(1+objInfo['zem'])) #set the observed frame
+        #ax2.set_xticks([4000,4500,5000,5500,6000,6500,7000,7500]) #the ticks I want
+        ax2.set_xlabel('Observed-frame Wavelength (\AA)')
+        ax2.xaxis.set_minor_locator(MultipleLocator(100))
+        ax1.yaxis.set_minor_locator(MultipleLocator(0.1))
         plt.savefig(filename)
 
         #let it play the first 'options' command first
