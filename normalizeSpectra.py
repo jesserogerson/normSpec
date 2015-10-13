@@ -262,8 +262,9 @@ def plotNorm(spectra,
                 leg=ax1.legend(loc='lower left',prop={'size':12})
             for legobj in leg.legendHandles:
                 legobj.set_linewidth(2.5)
-            ax1.xlim(xlimits[0],xlimits[1])
-            ax1.ylim(ylimits[0],ylimits[1])
+            ax1.set_xlim(xlimits[0],xlimits[1])
+            ax1.set_xticks([1250,1350,1450,1550,1650])
+            ax1.set_ylim(ylimits[0],ylimits[1])
         plt.savefig(filename)
 
         #let it play the first 'options' command first
