@@ -788,6 +788,7 @@ def normalize(spectra,
             print '(If all the spectra are not in the list above, it is because'
             print 'you took some out of the normlist)'
             SNRoutput=objInfo['objName'][6:]+' '+str(SNRreg[0])+' '+str(SNRreg[1])
+            lowSNR=False
             for spec in normList:
                 data,normalized,lam,flux,flux_err=[],[],0,0,0
                 #validate: make sure the datacube is shape 3
@@ -814,6 +815,8 @@ def normalize(spectra,
                 print '*** SNR in range '+str(SNRreg)+'is '+str(np.median(SNR))
                 #prepping for SNR writeout
                 SNRoutput=SNRoutput+' '+spec+' '+str(np.median(SNR))
+                if np.median(SNR)<=6:
+                    lowSNR=True
                 #identify the indicies that reflect the given RLF windows
                 w=0
                 w=np.array([],dtype=int)
@@ -861,6 +864,10 @@ def normalize(spectra,
             outfile=open('SNR_outfile.dat','a')
             outfile.write(SNRoutput+'\n')
             outfile.close
+            if lowSNR:
+                outfile=open('lowSNR_outfile.dat','a')
+                outfile.write(SNRoutput+'\n')
+                outfile.close
             print '*** calling plotting program'
             plotNorm(spectraNormalized,normList,RLF,colourDict,objInfo)
             user_input='commands'
