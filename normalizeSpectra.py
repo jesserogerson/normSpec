@@ -300,11 +300,11 @@ def plotNorm(spectra,
             loc_siv=siv_0b+(bshift*siv_0b)
             loc_nv=nv_0b+(bshift*nv_0b)
             loc_lya=lya_0+(bshift*lya_0)
-            print loc_civ
-            print loc_siv
-            print loc_nv
-            print loc_lya
             print 'Found locations of other ions: SiIV, NV, Lya'
+            print 'Location of  CIV absorption:',loc_civ
+            print 'Location of SiIV absorption:',loc_siv
+            print 'Location of   NV absorption:',loc_nv
+            print 'Location of  Lya absorption:',loc_lya
             print 'Turn on annotations to see them plotted.'
             plotIon=True
             print '############################################################'
