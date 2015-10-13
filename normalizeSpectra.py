@@ -192,6 +192,7 @@ def plotNorm(spectra,
         for spec in spectra:
             spectra[spec][:,1]=np.array(jarTools.boxcarSmooth(spectra[spec][:,1]))
     absDict={}
+    absCount=0
     escape=False
     first=False
     windows=False
@@ -260,7 +261,7 @@ def plotNorm(spectra,
                 ax1.plot([loc_siva,loc_siva],[-10,10],':',color='k')
                 ax1.plot([loc_sivb,loc_sivb],[-10,10],':',color='k')
                 #NV
-                ax1.annotate('NV',xy=(loc_nv,(ylimits[1]*0.2)))
+                ax1.annotate('NV',xy=(loc_nva,(ylimits[1]*0.2)))
                 ax1.plot([loc_nva,loc_nva],[-10,10],':',color='k')
                 ax1.plot([loc_nvb,loc_nvb],[-10,10],':',color='k')
                 #Lya
@@ -310,13 +311,16 @@ def plotNorm(spectra,
             ans=float(user_input)
             if ans in absDict.keys():
                 del absDict[ans]
+                absCount-=1
                 print 'New list of CIV absorbers'
                 print absDict
                 #if the dictionary is empty, turn off the plotting
                 if not absDict:
                     plotIon=False
             else:
+                absCount+=1
                 loc_civ=ans
+                absDict[absCount]=ans
                 bshift=(loc_civ-civ_0b)/civ_0b
                 loc_siva=siv_0a+(bshift*siv_0a)
                 loc_sivb=siv_0b+(bshift*siv_0b)
