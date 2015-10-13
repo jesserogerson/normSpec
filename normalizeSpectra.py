@@ -205,11 +205,10 @@ def plotNorm(spectra,
         ax1=fig.add_subplot(111)
         plt.rc('text',usetex=True)
         plt.rc('font',family='sans-serif')
-        plt.plot([100,10000],[1.0,1.0],'--',color='k')
-        plt.plot([100,10000],[0.9,0.9],':',color='k')
-
-        plt.xlim(xlimits[0],xlimits[1])
-        plt.ylim(ylimits[0],ylimits[1])
+        ax1.plot([100,10000],[1.0,1.0],'--',color='k')
+        ax1.plot([100,10000],[0.9,0.9],':',color='k')
+        #plt.xlim(xlimits[0],xlimits[1])
+        #plt.ylim(ylimits[0],ylimits[1])
 
         #sort plotList by smallest to largest MJD
         plotList=sorted(normList, key=objInfo.get)
@@ -221,12 +220,12 @@ def plotNorm(spectra,
                 deltaT=0
             else:
                 deltaT=round((objInfo[plotList[i]]-objInfo[plotList[i-1]])/(1+objInfo['zem']),2)
-            plt.plot(spectra[spec][:,0],(spectra[spec][:,1]),colourDict[spec],linewidth=lw,label=str(round(objInfo[spec],2))+' '+spec+' '+str(deltaT))
+            ax1.plot(spectra[spec][:,0],(spectra[spec][:,1]),colourDict[spec],linewidth=lw,label=str(round(objInfo[spec],2))+' '+spec+' '+str(deltaT))
 
         #turns on/off the RLF gray'd out regions
         if windows==True:
             for w in RLF:
-                plt.axvspan(w[0],w[1],facecolor='0.8',linewidth=0)
+                ax1.axvspan(w[0],w[1],facecolor='0.8',linewidth=0)
         if annotations==True:
             #Adding Annotations
             ax1.annotate(objInfo['objName'],xy=(1275,(ylimits[1]*0.95)))
