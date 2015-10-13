@@ -252,9 +252,13 @@ def plotNorm(spectra,
             #ax1.plot([1400,1400],[1.6,1.7],'k',linewidth=1)
             if plotIon==True:
                 ax1.plot([loc_civ,loc_civ],[-10,10],':',color='k')
+                ax1.annotate('CIV',xy=(loc_civ,(ylimits[1]*0.85)))
                 ax1.plot([loc_siv,loc_siv],[-10,10],':',color='k')
+                ax1.annotate('SiIV',xy=(loc_siv,(ylimits[1]*0.85)))
                 ax1.plot([loc_nv,loc_nv],[-10,10],':',color='k')
+                ax1.annotate('NV',xy=(loc_nv,(ylimits[1]*0.85)))
                 ax1.plot([loc_lya,loc_lya],[-10,10],':',color='k')
+                ax1.annotate('Lya',xy=(loc_lya,(ylimits[1]*0.85)))
             #Adding the legend
             if len(plotList)>=4:
                 leg=ax1.legend(loc='lower left',prop={'size':12},ncol=2)
