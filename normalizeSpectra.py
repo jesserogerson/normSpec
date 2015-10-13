@@ -213,7 +213,6 @@ def plotNorm(spectra,
 
         #sort plotList by smallest to largest MJD
         plotList=sorted(normList, key=objInfo.get)
-        print plotList
 
         #plot all normalized spectra in plotlist
         #calculate rest-frame time between observations on the fly
