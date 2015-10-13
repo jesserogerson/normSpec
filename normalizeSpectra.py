@@ -261,18 +261,18 @@ def plotNorm(spectra,
                     loc_nvb=nv_0b+(bshift*nv_0b)
                     loc_lya=lya_0+(bshift*lya_0)
                     #CIV
-                    ax1.annotate(str(absDict[Key])+'CIV',xy=(absDict[key],(ylimits[1]*0.90)))
+                    ax1.annotate(str(absDict[key])+'CIV',xy=(absDict[key],(ylimits[1]*0.90)))
                     ax1.plot([loc_civ,loc_civ],[-10,10],':',color='k')
                     #SiIV
-                    ax1.annotate(str(absDict[Key])+'SiIV',xy=(loc_siva,(ylimits[1]*0.90)))
+                    ax1.annotate(str(absDict[key])+'SiIV',xy=(loc_siva,(ylimits[1]*0.90)))
                     ax1.plot([loc_siva,loc_siva],[-10,10],':',color='k')
                     ax1.plot([loc_sivb,loc_sivb],[-10,10],':',color='k')
                     #NV
-                    ax1.annotate(str(absDict[Key])+'NV',xy=(loc_nva,(ylimits[1]*0.90)))
+                    ax1.annotate(str(absDict[key])+'NV',xy=(loc_nva,(ylimits[1]*0.90)))
                     ax1.plot([loc_nva,loc_nva],[-10,10],':',color='k')
                     ax1.plot([loc_nvb,loc_nvb],[-10,10],':',color='k')
                     #Lya
-                    ax1.annotate(str(absDict[Key])+'Lya',xy=(loc_lya,(ylimits[1]*0.90)))
+                    ax1.annotate(str(absDict[key])+'Lya',xy=(loc_lya,(ylimits[1]*0.90)))
                     ax1.plot([loc_lya,loc_lya],[-10,10],':',color='k')
             #Adding the legend
             if len(plotList)>=4:
