@@ -912,6 +912,8 @@ spectra={}
 normFileList={}
 #run a loop from 4th line to end of lines
 for l in lines[4:]:
+    if l[0]=='#':
+        continue
     temp=l.split()
     key=temp[0] ### spectrum name must be FIRST!
     spectra[key]=np.genfromtxt(temp[2],usecols=(0,1,2))
