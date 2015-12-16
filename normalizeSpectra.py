@@ -910,7 +910,9 @@ coords=lines[1].split()
 objInfo['RA']=float(coords[0])
 objInfo['Dec']=float(coords[1])
 objInfo['gmag']=float(lines[2])
-objInfo['zem']=float(lines[3])
+redshift=lines[3].split()
+objInfo['zem']=float(redshift[0])
+objInfo['zerr']=float(redshift[1])
 
 spectra={}
 normFileList={}
