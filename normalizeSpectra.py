@@ -528,8 +528,8 @@ def normalize(spectra,
     #'SDSS5':'m','SDSS6':'y','BOSS':'r','BOSS1':'r','BOSS2':'b',
     #'GEM':'c','GEM1':'c','GEM2':'g','GEM3':'orange'}
     #J073232, J083546, J083017
-    colourDict={'SDSS':'k','SDSS1':'k','SDSS2':'0.70','BOSS':'r',
-    'GEM1':'c','GEM2':'g','GEM3':'orange','GEM4':'m','GEM5':'b'}
+    #colourDict={'SDSS':'k','SDSS1':'k','SDSS2':'0.70','BOSS':'r',
+    #'GEM1':'c','GEM2':'g','GEM3':'orange','GEM4':'m','GEM5':'b'}
     #J015017
     #colourDict={'SDSS1':'k','SDSS2':'0.70','SDSS3':'g',
     #'BOSS1':'r','BOSS2':'b',
