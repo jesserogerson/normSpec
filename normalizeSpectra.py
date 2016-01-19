@@ -245,7 +245,8 @@ def plotNorm(spectra,
                     loc_lya=lya_0+(bshift*lya_0)
                     #CIV
                     ax1.annotate(str(key)+'CIV',xy=(absDict[key],(ylimits[1]*0.90)))
-                    ax1.plot([loc_civ,loc_civ],[-10,10],':',color='k')
+                    ax1.plot([loc_civa,loc_civa],[-10,10],':',color='k')
+                    ax1.plot([loc_civb,loc_civb],[-10,10],':',color='k')
                     #SiIV
                     ax1.annotate(str(key)+'SiIV',xy=(loc_siva,(ylimits[1]*0.90)))
                     ax1.plot([loc_siva,loc_siva],[-10,10],':',color='k')
@@ -324,15 +325,21 @@ def plotNorm(spectra,
             else:
                 absCount+=1
                 loc_civ=ans
+                #let's assume the location they gave is civ_b
+                #civ_0a=1550.774 #CIV
+                #civ_0b=1548.202 #CIV
+                #that means civ_a is at ans-2.572
                 absDict[absCount]=ans
                 bshift=(loc_civ-civ_0b)/civ_0b
+                loc_civa=ans-2.572
+                loc_civb=ans
                 loc_siva=siv_0a+(bshift*siv_0a)
                 loc_sivb=siv_0b+(bshift*siv_0b)
                 loc_nva=nv_0a+(bshift*nv_0a)
                 loc_nvb=nv_0b+(bshift*nv_0b)
                 loc_lya=lya_0+(bshift*lya_0)
                 print 'Found locations of other ions: SiIV, NV, Lya'
-                print 'Location of  CIV absorption:',loc_civ
+                print 'Location of  CIV absorption:',loc_civa,loc_civb
                 print 'Location of SiIV absorption:',loc_siva,loc_sivb
                 print 'Location of   NV absorption:',loc_nva,loc_nvb
                 print 'Location of  Lya absorption:',loc_lya
